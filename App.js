@@ -8,17 +8,21 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import UserRoutes from './Users/routes.js';
 import session from 'express-session';
+import cookieParser from 'cookie-parser';
 import "dotenv/config";
 
 const CONNECTION_STRING = process.env.DB_CONNECTION_STRING || 'mongodb://localhost:27017/kanbas';
 
-mongoose.connect(CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(CONNECTION_STRING);
 
 const app = express()
 app.use(cors({
     credentials: true,
     origin: process.env.FRONTEND_URL,
 }));
+
+app.use(cookieParser());
+
 const sessionOptions = {
   secret: process.env.SESSION_SECRET,
   resave: false,
